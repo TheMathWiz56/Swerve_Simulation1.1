@@ -13,16 +13,14 @@ OCG = OccupancyGrid.OccupancyGrid("Occupancy Grids/Occupancy Grid3.txt")
 OCGarr = np.array(OCG.getOGGrid())
 
 "Tkinter window size and formatting"
-width = "970"
-height = "870"
+width = "570"
+height = "835"
 root = tk.Tk()
 root.geometry(width + "x" + height)
 root.minsize(int(width), int(height))
 root.maxsize(int(width), int(height))
-root.title("2848 Swerve Path Planner")
+root.title("2848 Swerve Simulation")
 sv_ttk.use_dark_theme()
-
-
 
 "Joystick instance"
 "joystick1 = Joystick.XboxController()"
@@ -30,28 +28,18 @@ sv_ttk.use_dark_theme()
 
 "Initialize all frames for main window"
 borderwidth = 5
-tFrame = ttk.Frame(root, relief='raised', borderwidth=borderwidth)
-tFrame0 = ttk.Frame(tFrame)
-tFrame1 = ttk.Frame(tFrame)
+tFrame = ttk.Frame(root, relief='raised', borderwidth=borderwidth, width=570)
 mFrame = ttk.Frame(root)
 mFrame0 = ttk.Frame(mFrame, relief='groove', borderwidth=borderwidth)
-mFrame1 = ttk.Frame(mFrame)
-bFrame = ttk.Frame(root, relief='raised', borderwidth=borderwidth)
-bFrame0 = ttk.Frame(bFrame)
-bFrame1 = ttk.Frame(bFrame)
+mFrame1 = ttk.Frame(mFrame, height=744, width=165)
 
 "pack main frames"
 tFrame.pack()
 mFrame.pack()
-bFrame.pack()
 
 "pack subframes"
-tFrame0.pack(side='left')
-tFrame1.pack(side='left')
 mFrame0.pack(side='left')
 mFrame1.pack(side='left')
-bFrame0.pack(side='left')
-bFrame1.pack(side='left')
 
 "Create and pack field&robot image and canvas"
 cSizeMultiplier = 7680 / 3720
@@ -59,8 +47,7 @@ cWidth = 375
 cHeight = int(cWidth * cSizeMultiplier)
 mFrame0.configure(width=cWidth, height=cHeight)
 canvas = tk.Canvas(mFrame0, height=cHeight, width=cWidth)
-canvas.pack(side='left', anchor='sw', expand=True, padx=200)
-
+canvas.pack(side='left', anchor='sw')
 
 fieldImage = Image.open("Images/Field Image5.png")
 fieldImage = fieldImage.resize((cHeight, cWidth))
@@ -79,17 +66,8 @@ robotw = 0  # in degrees
 
 "Create and pack buttons for tFrame"
 tbWidth = 20
-pickStart = ttk.Button(tFrame0, text="Pick Start", width=tbWidth)
-pickEnd = ttk.Button(tFrame0, text="Pick End", width=tbWidth)
-showPath = ttk.Button(tFrame0, text="Show Path", width=tbWidth)
-enabledFlash = ttk.Button(tFrame1, text="Enable", width=tbWidth)
-
-tbpadx = 37
-tbpady = 0
-pickStart.pack(side="left", padx=tbpadx, pady=tbpady)
-pickEnd.pack(side="left", padx=tbpadx, pady=tbpady)
-showPath.pack(side="left", padx=tbpadx, pady=tbpady)
-enabledFlash.pack(anchor="e")
+enabledFlash = ttk.Button(tFrame, text="Enable", width=570)
+enabledFlash.pack()
 
 "Create and pack canvases for joystick graphs"
 jcsize = 165
@@ -123,18 +101,8 @@ jimgpng = ImageTk.PhotoImage(joystickImagge)
 jimg0 = jcanvas0.create_image(jcsize / 2, jcsize / 2, image=jimgpng)
 jimg1 = jcanvas1.create_image(jcsize / 2, jcsize / 2, image=jimgpng)
 
-"Create and pack buttons for bFrame"
-btn_destroy_wapoints = ttk.Button(bFrame0, text="Destroy Waypoints", width=tbWidth)
-togglePieces = ttk.Button(bFrame0, text="Toggle Pieces", width=tbWidth)
-timer = ttk.Label(bFrame1, text="Timer", width=tbWidth)
-
-bbpadx = 107
-bbpady = 0
-btn_destroy_wapoints.pack(side='left', padx=bbpadx, pady=bbpady, fill='x')
-togglePieces.pack(side='left', padx=bbpadx, pady=bbpady, fill='x')
-timer.pack(pady=bbpady, fill='x')
-
-
+timer = ttk.Label(mFrame1, text="Timer: ", width=tbWidth)
+timer.pack(anchor='sw')
 
 "Creating Menubar"
 menubar = tk.Menu()
@@ -165,9 +133,8 @@ kinematicsM.add_cascade(label="MAX Jerk")
 dimensionsM.add_cascade(label="Edit Width")
 dimensionsM.add_cascade(label="Edit Length")
 
-menubar.add_cascade(label="Simulation", menu=simulationM)
-simulationM.add_cascade(label="Set % error")
-simulationM.add_cascade(label="Set PID")
-
 "Display of menu bar in the app"
 root.config(menu=menubar)
+
+"loop main window"
+root.mainloop()
