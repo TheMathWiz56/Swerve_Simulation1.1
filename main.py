@@ -1,7 +1,6 @@
 import OccupancyGrid
 import numpy as np
 import tkinter as tk
-from tkinter import filedialog
 from tkinter import ttk
 import sv_ttk
 from PIL import ImageTk, Image
